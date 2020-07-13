@@ -1,7 +1,3 @@
-# USAGE
-# python detect_drowsiness.py --shape-predictor shape_predictor_68_face_landmarks.dat
-# python detect_drowsiness.py --shape-predictor shape_predictor_68_face_landmarks.dat --alarm alarm.wav
-
 # import the necessary packages
 from scipy.spatial import distance as dist
 from imutils.video import VideoStream
@@ -49,10 +45,9 @@ ap.add_argument("-a", "--alarm", type=int, default=0,
 	help="path alarm .wav file")
 args = vars(ap.parse_args())
  
-# define two constants, one for the eye aspect ratio to indicate
-# blink and then a second constant for the number of consecutive
-# frames the eye must be below the threshold for to set off the
-# alarm
+# define two constants, one for the eye aspect ratio and 
+#then a second constant for the number of consecutive blink
+
 EYE_AR_THRESH = 0.25
 EYE_AR_CONSEC_FRAMES = 10
 
@@ -61,7 +56,7 @@ EYE_AR_CONSEC_FRAMES = 10
 COUNTER = 0
 ALARM_ON = False
 
-# initialize dlib's face detector (HOG-based) and then create
+# initialize dlib's face detector and then create
 # the facial landmark predictor
 print("[INFO] loading facial landmark predictor...")
 detector = dlib.get_frontal_face_detector()
@@ -72,7 +67,6 @@ predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
-# start the video stream thread
 print("[INFO] starting video stream thread...")
 vs = VideoStream(src=args["webcam"]).start()
 time.sleep(1.0)
@@ -81,7 +75,6 @@ time.sleep(1.0)
 while True:
 	# grab the frame from the threaded video file stream, resize
 	# it, and convert it to grayscale
-	# channels)
 	frame = vs.read()
 	frame = imutils.resize(frame, width=500)
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
